@@ -30,5 +30,6 @@ void AZombieAreaCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+
 }
 
