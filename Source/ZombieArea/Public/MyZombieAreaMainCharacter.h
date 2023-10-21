@@ -13,5 +13,52 @@ UCLASS()
 class ZOMBIEAREA_API AMyZombieAreaMainCharacter : public AZombieAreaCharacter
 {
 	GENERATED_BODY()
+
+public:
+	// Sets default values for this character's properties
+	AMyZombieAreaMainCharacter();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+protected:
+
+	void JumpAction();
+
+	void MainAction();
+
+	void SecondaryAction();
+
+	void MoveForward(float Input);
+
+	void MoveBackward(float Input);
+
+	void MoveLeft(float Input);
+
+	void MoveRight(float Input);
+
+public:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Setup|Jump")
+	FVector JumpDirection;
 	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Setup|Jump")
+	float JumpForce;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Setup|Moving")
+	float ForwardMovingSpeed;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Setup|Moving")
+	float BackwardMovingSpeed;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Setup|Moving")
+	float SideMovingSpeed;
 };

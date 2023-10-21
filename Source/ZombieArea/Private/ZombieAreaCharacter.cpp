@@ -29,7 +29,5 @@ void AZombieAreaCharacter::Tick(float DeltaTime)
 void AZombieAreaCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-
 }
 
