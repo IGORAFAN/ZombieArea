@@ -37,13 +37,9 @@ protected:
 
 	void SecondaryAction();
 
-	void MoveForward(float Input);
+	void MoveForwardBackward(float Input);
 
-	void MoveBackward(float Input);
-
-	void MoveLeft(float Input);
-
-	void MoveRight(float Input);
+	void MoveLeftRight(float Input);
 
 public:
 

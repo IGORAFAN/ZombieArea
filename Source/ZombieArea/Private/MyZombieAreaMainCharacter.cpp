@@ -31,14 +31,13 @@ void AMyZombieAreaMainCharacter::SetupPlayerInputComponent(UInputComponent* Play
 	PlayerInputComponent->BindAction("MainAction", EInputEvent::IE_Pressed, this, &AMyZombieAreaMainCharacter::MainAction);
 	PlayerInputComponent->BindAction("SecondaryAction", EInputEvent::IE_Pressed, this, &AMyZombieAreaMainCharacter::SecondaryAction);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &AMyZombieAreaMainCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveBackward", this, &AMyZombieAreaMainCharacter::MoveBackward);
-	PlayerInputComponent->BindAxis("MoveLeft", this, &AMyZombieAreaMainCharacter::MoveLeft);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AMyZombieAreaMainCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMyZombieAreaMainCharacter::MoveForwardBackward);
+	PlayerInputComponent->BindAxis("MoveLeftRight", this, &AMyZombieAreaMainCharacter::MoveLeftRight);
 }
 
 void AMyZombieAreaMainCharacter::JumpAction()
 {
+	GetMoveComponent()->
 	AddMovementInput(JumpDirection, JumpForce, false);
 }
 
@@ -52,34 +51,26 @@ void AMyZombieAreaMainCharacter::SecondaryAction()
 	// Do something like aiming
 }
 
-void AMyZombieAreaMainCharacter::MoveForward(float Input)
+void AMyZombieAreaMainCharacter::MoveForwardBackward(float Input)
 {
-	FRotator Rotator = GetControlRotation();
 	double Force = Input * ForwardMovingSpeed;
-
-	AddMovementInput(FVector(Rotator.Yaw, 0, 0), Force, false);
+	FRotator Rotator = GetControlRotation();
+	FVector Vectors[3];
+	FRotationMatrix(Rotator).GetScaledAxes(Vectors[0], Vectors[1], Vectors[2]);
+	FMatrix RotMatrix(Vectors[0], Vectors[1], Vectors[2], FVector::ZeroVector);
+	FRotator RotatorFromMatrix = RotMatrix.Rotator();
+	FVector PitchVector = Rotator.Vector();
+	AddMovementInput(PitchVector, Force, false);
 }
 
-void AMyZombieAreaMainCharacter::MoveBackward(float Input)
+void AMyZombieAreaMainCharacter::MoveLeftRight(float Input)
 {
-	FRotator Rotator = GetControlRotation();
-	double Force = Input * BackwardMovingSpeed;
-
-	AddMovementInput(FVector(Rotator.Yaw, 0, 0), -Force, false);
-}
-
-void AMyZombieAreaMainCharacter::MoveLeft(float Input)
-{
-	FRotator Rotator = GetControlRotation();
 	double Force = Input * SideMovingSpeed;
-
-	AddMovementInput(FVector(0, Rotator.Pitch, 0), -Force, false);
-}
-
-void AMyZombieAreaMainCharacter::MoveRight(float Input)
-{
 	FRotator Rotator = GetControlRotation();
-	double Force = Input * SideMovingSpeed;
-
-	AddMovementInput(FVector(0, Rotator.Pitch, 0), Force, false);
+	FVector Vectors[3];
+	FRotationMatrix(Rotator).GetScaledAxes(Vectors[0], Vectors[1], Vectors[2]);
+	FMatrix RotMatrix(Vectors[0], Vectors[1], Vectors[2], FVector::ZeroVector);
+	FRotator RotatorFromMatrix = RotMatrix.Rotator();
+	FVector YawVector = FRotationMatrix(RotatorFromMatrix).GetScaledAxis(EAxis::Y);
+	AddMovementInput(YawVector, Force, false);
 }
