@@ -57,4 +57,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Setup|Moving")
 	float SideMovingSpeed;
+
+protected:
+	FRotator LastMeshRotation;
 };
